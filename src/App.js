@@ -20,15 +20,12 @@ function App() {
   const fetchProductsData = useCallback(async () => {
     setIsLoading(true);
     try {
-      const params = {
-        search: currentSearchTerm,
-        per_page: 100,
-        page: currentPage,
-      };
-      const data = await fetchProducts(params);
+      const searchTerm = currentSearchTerm;
+      const perPage = 100;
+      const page = currentPage;
+      const data = await fetchProducts(searchTerm, perPage, page);
 
       if (data && data.length > 0) {
-        // 根據 shortDescriptionFilter 進行篩選
         const filteredData = data.filter(product => {
           if (shortDescriptionFilter === 'notEmpty') {
             return (
@@ -43,7 +40,7 @@ function App() {
             );
           }
 
-          return true; // 'all' 或其他情況下顯示所有商品
+          return true;
         });
 
         setProducts(filteredData);
